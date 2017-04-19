@@ -51,7 +51,7 @@
 
         href="http://github.com/phonegap/phonegap-plugin-push#readme"
 
-    >phonegap-plugin-push (v1.10.0)</a>
+    >phonegap-plugin-push (v1.10.2)</a>
 </h1>
 <h4>Register and receive push notifications.</h4>
 <div class="apidocSectionDiv"><a
@@ -61,12 +61,220 @@
 
     <li class="apidocModuleLi"><a href="#apidoc.module.phonegap-plugin-push">module phonegap-plugin-push</a><ol>
 
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">phonegap-plugin-push.</span>cordova</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">phonegap-plugin-push.</span>push</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.phonegap-plugin-push.cordova">module phonegap-plugin-push.cordova</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.phonegap-plugin-push.cordova.require">
+            function <span class="apidocSignatureSpan">phonegap-plugin-push.cordova.</span>require
+            <span class="apidocSignatureSpan">(moduleId)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">phonegap-plugin-push.cordova.</span>required</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.phonegap-plugin-push.push">module phonegap-plugin-push.push</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.phonegap-plugin-push.push.PushNotification">
+            function <span class="apidocSignatureSpan">phonegap-plugin-push.push.</span>PushNotification
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.phonegap-plugin-push.push.hasPermission">
+            function <span class="apidocSignatureSpan">phonegap-plugin-push.push.</span>hasPermission
+            <span class="apidocSignatureSpan">(successCallback, errorCallback)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.phonegap-plugin-push.push.init">
+            function <span class="apidocSignatureSpan">phonegap-plugin-push.push.</span>init
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
     </ol></li>
 
 </ol></div>
 
 <div class="apidocSectionDiv">
 <h1><a href="#apidoc.module.phonegap-plugin-push" id="apidoc.module.phonegap-plugin-push">module phonegap-plugin-push</a></h1>
+
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.phonegap-plugin-push.cordova" id="apidoc.module.phonegap-plugin-push.cordova">module phonegap-plugin-push.cordova</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.phonegap-plugin-push.cordova.require" id="apidoc.element.phonegap-plugin-push.cordova.require">
+        function <span class="apidocSignatureSpan">phonegap-plugin-push.cordova.</span>require
+        <span class="apidocSignatureSpan">(moduleId)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">require = function (moduleId) {
+    // define a default function if it doesn&#x27;t exist
+    if (!cordova.required[moduleId]) {
+        cordova.required[moduleId] = function() {};
+    }
+    // create a new module mapping between the module Id and cordova.required.
+    return new ModuleMap(moduleId);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+/* global cordova:false */
+/* globals window */
+
+/*!
+* Module dependencies.
+*/
+
+var exec = cordova.<span class="apidocCodeKeywordSpan">require</span>(&#x27;cordova/exec&#x27;);
+
+/**
+* PushNotification constructor.
+*
+* @param {Object} options to initiate Push Notifications.
+* @return {PushNotification} instance that can be monitored and cancelled.
+*/
+...</pre></li>
+    </ul>
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.phonegap-plugin-push.push" id="apidoc.module.phonegap-plugin-push.push">module phonegap-plugin-push.push</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.phonegap-plugin-push.push.PushNotification" id="apidoc.element.phonegap-plugin-push.push.PushNotification">
+        function <span class="apidocSignatureSpan">phonegap-plugin-push.push.</span>PushNotification
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">PushNotification = function (options) {
+    this._handlers = {
+        &#x27;registration&#x27;: [],
+        &#x27;notification&#x27;: [],
+        &#x27;error&#x27;: []
+    };
+
+    // require options parameter
+    if (typeof options === &#x27;undefined&#x27;) {
+        throw new Error(&#x27;The options argument is required.&#x27;);
+    }
+
+    // store the options to this object instance
+    this.options = options;
+
+    // triggered on registration and notification
+    var that = this;
+    var success = function(result) {
+        if (result &#x26;&#x26; typeof result.registrationId !== &#x27;undefined&#x27;) {
+            that.emit(&#x27;registration&#x27;, result);
+        } else if (result &#x26;&#x26; result.additionalData &#x26;&#x26; typeof result.additionalData.actionCallback !== &#x27;undefined&#x27;) {
+            var executeFuctionOrEmitEventByName = function(callbackName, context, arg) {
+              var namespaces = callbackName.split(&#x27;.&#x27;);
+              var func = namespaces.pop();
+              for (var i = 0; i &#x3c; namespaces.length; i++) {
+                context = context[namespaces[i]];
+              }
+
+              if (typeof context[func] === &#x27;function&#x27;) {
+                context[func].call(context, arg);
+              } else {
+                that.emit(callbackName, arg);
+              }
+            };
+
+            executeFuctionOrEmitEventByName(result.additionalData.actionCallback, window, result);
+        } else if (result) {
+            that.emit(&#x27;notification&#x27;, result);
+        }
+    };
+
+    // triggered on error
+    var fail = function(msg) {
+        var e = (typeof msg === &#x27;string&#x27;) ? new Error(msg) : msg;
+        that.emit(&#x27;error&#x27;, e);
+    };
+
+    // wait at least one process tick to allow event subscriptions
+    setTimeout(function() {
+        exec(success, fail, &#x27;PushNotification&#x27;, &#x27;init&#x27;, [options]);
+    }, 10);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.phonegap-plugin-push.push.hasPermission" id="apidoc.element.phonegap-plugin-push.push.hasPermission">
+        function <span class="apidocSignatureSpan">phonegap-plugin-push.push.</span>hasPermission
+        <span class="apidocSignatureSpan">(successCallback, errorCallback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">hasPermission = function (successCallback, errorCallback) {
+    exec(successCallback, errorCallback, &#x27;PushNotification&#x27;, &#x27;hasPermission&#x27;, []);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.phonegap-plugin-push.push.init" id="apidoc.element.phonegap-plugin-push.push.init">
+        function <span class="apidocSignatureSpan">phonegap-plugin-push.push.</span>init
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">init = function (options) {
+    return new PushNotification(options);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
 
 </div>
 

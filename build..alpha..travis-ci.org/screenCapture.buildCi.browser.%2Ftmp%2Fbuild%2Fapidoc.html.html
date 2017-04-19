@@ -1,4 +1,4 @@
-<div class="apidocDiv">
+<html><head></head><body><div class="apidocDiv">
 <style>
 /*csslint
 */
@@ -47,17 +47,10 @@
 }
 </style>
 <h1>api documentation for
-    <a
-
-        href="http://github.com/phonegap/phonegap-plugin-push#readme"
-
-    >phonegap-plugin-push (v1.10.2)</a>
+    <a href="http://github.com/phonegap/phonegap-plugin-push#readme">phonegap-plugin-push (v1.10.2)</a>
 </h1>
 <h4>Register and receive push notifications.</h4>
-<div class="apidocSectionDiv"><a
-    href="#apidoc.tableOfContents"
-    id="apidoc.tableOfContents"
-><h1>table of contents</h1></a><ol>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
 
     <li class="apidocModuleLi"><a href="#apidoc.module.phonegap-plugin-push">module phonegap-plugin-push</a><ol>
 
@@ -148,7 +141,7 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">require = function (moduleId) {
-    // define a default function if it doesn&#x27;t exist
+    // define a default function if it doesn't exist
     if (!cordova.required[moduleId]) {
         cordova.required[moduleId] = function() {};
     }
@@ -163,7 +156,7 @@
 * Module dependencies.
 */
 
-var exec = cordova.<span class="apidocCodeKeywordSpan">require</span>(&#x27;cordova/exec&#x27;);
+var exec = cordova.<span class="apidocCodeKeywordSpan">require</span>('cordova/exec');
 
 /**
 * PushNotification constructor.
@@ -192,14 +185,14 @@ var exec = cordova.<span class="apidocCodeKeywordSpan">require</span>(&#x27;cord
     <ul>
     <li>description and source-code<pre class="apidocCodePre">PushNotification = function (options) {
     this._handlers = {
-        &#x27;registration&#x27;: [],
-        &#x27;notification&#x27;: [],
-        &#x27;error&#x27;: []
+        'registration': [],
+        'notification': [],
+        'error': []
     };
 
     // require options parameter
-    if (typeof options === &#x27;undefined&#x27;) {
-        throw new Error(&#x27;The options argument is required.&#x27;);
+    if (typeof options === 'undefined') {
+        throw new Error('The options argument is required.');
     }
 
     // store the options to this object instance
@@ -208,17 +201,17 @@ var exec = cordova.<span class="apidocCodeKeywordSpan">require</span>(&#x27;cord
     // triggered on registration and notification
     var that = this;
     var success = function(result) {
-        if (result &#x26;&#x26; typeof result.registrationId !== &#x27;undefined&#x27;) {
-            that.emit(&#x27;registration&#x27;, result);
-        } else if (result &#x26;&#x26; result.additionalData &#x26;&#x26; typeof result.additionalData.actionCallback !== &#x27;undefined&#x27;) {
+        if (result &amp;&amp; typeof result.registrationId !== 'undefined') {
+            that.emit('registration', result);
+        } else if (result &amp;&amp; result.additionalData &amp;&amp; typeof result.additionalData.actionCallback !== 'undefined') {
             var executeFuctionOrEmitEventByName = function(callbackName, context, arg) {
-              var namespaces = callbackName.split(&#x27;.&#x27;);
+              var namespaces = callbackName.split('.');
               var func = namespaces.pop();
-              for (var i = 0; i &#x3c; namespaces.length; i++) {
+              for (var i = 0; i &lt; namespaces.length; i++) {
                 context = context[namespaces[i]];
               }
 
-              if (typeof context[func] === &#x27;function&#x27;) {
+              if (typeof context[func] === 'function') {
                 context[func].call(context, arg);
               } else {
                 that.emit(callbackName, arg);
@@ -227,19 +220,19 @@ var exec = cordova.<span class="apidocCodeKeywordSpan">require</span>(&#x27;cord
 
             executeFuctionOrEmitEventByName(result.additionalData.actionCallback, window, result);
         } else if (result) {
-            that.emit(&#x27;notification&#x27;, result);
+            that.emit('notification', result);
         }
     };
 
     // triggered on error
     var fail = function(msg) {
-        var e = (typeof msg === &#x27;string&#x27;) ? new Error(msg) : msg;
-        that.emit(&#x27;error&#x27;, e);
+        var e = (typeof msg === 'string') ? new Error(msg) : msg;
+        that.emit('error', e);
     };
 
     // wait at least one process tick to allow event subscriptions
     setTimeout(function() {
-        exec(success, fail, &#x27;PushNotification&#x27;, &#x27;init&#x27;, [options]);
+        exec(success, fail, 'PushNotification', 'init', [options]);
     }, 10);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -255,7 +248,7 @@ var exec = cordova.<span class="apidocCodeKeywordSpan">require</span>(&#x27;cord
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">hasPermission = function (successCallback, errorCallback) {
-    exec(successCallback, errorCallback, &#x27;PushNotification&#x27;, &#x27;hasPermission&#x27;, []);
+    exec(successCallback, errorCallback, 'PushNotification', 'hasPermission', []);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -284,3 +277,4 @@ var exec = cordova.<span class="apidocCodeKeywordSpan">require</span>(&#x27;cord
     ]
 </div>
 </div>
+</body></html>
